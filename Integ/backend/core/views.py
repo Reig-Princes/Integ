@@ -43,6 +43,7 @@ class LoginAPIView(APIView):
             'token': access_token
         }
         return response
+
 class RefreshAPIView(APIView):
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
@@ -51,3 +52,12 @@ class RefreshAPIView(APIView):
         return Response({
             'token': access_token
         })
+
+class LogoutAPIView(APIView):
+    def post(self, request):
+        response = Response()
+        response.delete_cookie(key='refresh_token')
+        response.data = {
+            'message': 'Success logout'
+        }
+        return response
